@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Carrossel } from "@/components/Carrossel";
 
 export default function Home() {
   return (
@@ -9,6 +10,8 @@ export default function Home() {
         <p className="text-white text-center text-sm sm:text-base  text-lg lg:px-30">
           Seja Bem vindo ao Charme Chicc, onde a elegância encontra a sofisticação. Descubra uma coleção exclusiva de roupas e acessórios que combinam estilo e conforto para realçar sua beleza única. Explore nossas últimas tendências e encontre peças que refletem sua personalidade. Charme Chicc - onde cada detalhe é pensado para você brilhar.
         </p>
+        <Carrossel />
+
       </section>
       <section id="produtos">
         <h2 className="text-white text-center text-2xl mt-8">Produtos</h2>
