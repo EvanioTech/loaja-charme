@@ -6,7 +6,7 @@ export default function Home() {
       <Header />
 
       <section id="inicio" className="mt-4 pt-25 sm:p-18 px-4">
-        <p className="text-white text-center text-sm sm:text-base sm:text9xl text-lg lg:px-40">
+        <p className="text-white text-center text-sm sm:text-base  text-lg lg:px-30">
           Seja Bem vindo ao Charme Chicc, onde a elegância encontra a sofisticação. Descubra uma coleção exclusiva de roupas e acessórios que combinam estilo e conforto para realçar sua beleza única. Explore nossas últimas tendências e encontre peças que refletem sua personalidade. Charme Chicc - onde cada detalhe é pensado para você brilhar.
         </p>
       </section>
