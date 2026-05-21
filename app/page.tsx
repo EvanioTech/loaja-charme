@@ -1,5 +1,8 @@
 import { Header } from "@/components/Header";
 import { Carrossel } from "@/components/Carrossel";
+import { Products } from "@/components/Products";
+import { Contact } from "@/components/Contact";
+import { About } from "@/components/About";
 
 export default function Home() {
   return (
@@ -15,18 +18,15 @@ export default function Home() {
       </section>
       <section id="produtos">
         <h2 className="text-white text-center text-2xl mt-8">Produtos</h2>
-        {/* Adicione aqui a seção de produtos */}
-        <p className="text-white text-center  text-sm sm:text-base text-lg lg:px-30">
-          
-        </p>
+        <Products />
       </section>
       <section id="sobre">
         <h2 className="text-white text-center text-2xl mt-8">Sobre</h2>
-        {/* Adicione aqui a seção sobre */}
+        <About />
       </section>
       <section id="contato">
         <h2 className="text-white text-center text-2xl mt-8">Contato</h2>
-        {/* Adicione aqui a seção de contato */}
+        <Contact />
       </section>
     </main>
   );
