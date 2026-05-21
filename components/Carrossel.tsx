@@ -32,17 +32,17 @@ export function Carrossel() {
 
       <div
         ref={carouselRef}
-        className="flex gap-6 overflow-x-auto scroll-smooth"
+        className="flex gap-6 overflow-x-auto scroll-smooth ml-5 md:justify-center"
       >
-        <article className="min-w-[250px] bg-white rounded-2xl p-4">
+        <article className="min-w-[250px] bg-white rounded-2xl p-4 h-60">
           Produto 1
         </article>
 
-        <article className="min-w-[250px] bg-white rounded-2xl p-4">
+        <article className="min-w-[250px] bg-white rounded-2xl p-4 h-60">
           Produto 2
         </article>
 
-        <article className="min-w-[250px] bg-white rounded-2xl p-4">
+        <article className="min-w-[250px] bg-white rounded-2xl p-4 h-60">
           Produto 3
         </article>
       </div>
