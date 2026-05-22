@@ -1,6 +1,6 @@
 export function Header() {
   return (
-    <header className="w-full p-4 fixed top-0 left-0 bg-gradient-to-r from-purple-500 to-pink-500 shadow-md z-10">
+    <header className="w-full p-4 fixed top-0 left-0 bg-[#FFC5D3] shadow-md z-10">
       <nav className="flex justify-between items-center">
         <h1 className="text-white text-2xl font-bold">
             <a href="#inicio">Charme Chicc</a>
