@@ -61,16 +61,8 @@ const Carrossel = (props: PropType) => {
 
       <div className="embla__controls">
         <div className="embla__buttons">
-          <PrevButton
-            onClick={onPrevButtonClick}
-            onPointerDown={onPrevButtonClick}
-            onPointerDownCapture={onPrevButtonClick}
-          />
-          <NextButton
-            onClick={onNextButtonClick}
-            onPointerDown={onNextButtonClick}
-            onPointerDownCapture={onNextButtonClick}
-          />
+          <PrevButton onClick={onPrevButtonClick} />
+          <NextButton onClick={onNextButtonClick} />
         </div>
 
         <div className="embla__dots">
