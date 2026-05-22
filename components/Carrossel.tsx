@@ -1,58 +1,90 @@
+"use client"
 
+import React from 'react'
+import { EmblaOptionsType } from 'embla-carousel'
+import useEmblaCarousel from 'embla-carousel-react'
+import {
+  NextButton,
+  PrevButton,
+  usePrevNextButtons
+} from './CarrosselArrowButton'
+import { DotButton, useDotButton } from './CarrosselDotButoon'
 
-"use client";
+type SlideType = {
+  src: string
+  alt: string
+}
 
-import { useRef } from "react";
+type PropType = {
+  slides?: SlideType[]
+  options?: EmblaOptionsType
+}
 
-export function Carrossel() {
-  const carouselRef = useRef<HTMLDivElement>(null);
+const defaultSlides: SlideType[] = [
+  { src: '/produtos/i1.webp', alt: 'Produto Charme Chicc 1' },
+  { src: '/produtos/i2.webp', alt: 'Produto Charme Chicc 2' },
+  { src: '/produtos/i3.webp', alt: 'Produto Charme Chicc 3' },
+  { src: '/produtos/i4.webp', alt: 'Produto Charme Chicc 4' }
+]
 
-  function scrollLeft() {
-    carouselRef.current?.scrollBy({
-      left: -300,
-      behavior: "smooth",
-    });
-  }
+const Carrossel = (props: PropType) => {
+  const { slides = defaultSlides, options } = props
+  const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
-  function scrollRight() {
-    carouselRef.current?.scrollBy({
-      left: 300,
-      behavior: "smooth",
-    });
-  }
+  const { selectedIndex, scrollSnaps, onDotButtonClick } =
+    useDotButton(emblaApi)
+
+  const { onPrevButtonClick, onNextButtonClick } =
+    usePrevNextButtons(emblaApi)
 
   return (
-    <div className="relative mt-10">
-      <button
-        onClick={scrollLeft}
-        className="absolute left-0 top-1/2 z-10"
-      >
-        ←
-      </button>
-
-      <div
-        ref={carouselRef}
-        className="flex gap-6 overflow-x-auto scroll-smooth ml-5 md:justify-center"
-      >
-        <article className="min-w-[250px] bg-white rounded-2xl p-4 h-60">
-          Produto 1
-        </article>
-
-        <article className="min-w-[250px] bg-white rounded-2xl p-4 h-60">
-          Produto 2
-        </article>
-
-        <article className="min-w-[250px] bg-white rounded-2xl p-4 h-60">
-          Produto 3
-        </article>
+    <div className="embla">
+      <div className="embla__viewport" ref={emblaRef}>
+        <div className="embla__container">
+          {slides.map((slide, index) => (
+            <div className="embla__slide" key={slide.src}>
+              <div className="embla__slide__number">
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  className="embla__slide__image"
+                  draggable="false"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <button
-        onClick={scrollRight}
-        className="absolute right-0 top-1/2 z-10"
-      >
-        →
-      </button>
+      <div className="embla__controls">
+        <div className="embla__buttons">
+          <PrevButton
+            onClick={onPrevButtonClick}
+            onPointerDown={onPrevButtonClick}
+            onPointerDownCapture={onPrevButtonClick}
+          />
+          <NextButton
+            onClick={onNextButtonClick}
+            onPointerDown={onNextButtonClick}
+            onPointerDownCapture={onNextButtonClick}
+          />
+        </div>
+
+        <div className="embla__dots">
+          {scrollSnaps.map((_, index) => (
+            <DotButton
+              key={index}
+              onClick={() => onDotButtonClick(index)}
+              className={'embla__dot'.concat(
+                index === selectedIndex ? ' embla__dot--selected' : ''
+              )}
+            />
+          ))}
+        </div>
+      </div>
     </div>
-  );
+  )
 }
+
+export default Carrossel
