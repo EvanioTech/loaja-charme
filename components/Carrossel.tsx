@@ -24,7 +24,9 @@ const defaultSlides: SlideType[] = [
   { src: '/produtos/i1.webp', alt: 'Produto Charme Chicc 1' },
   { src: '/produtos/i2.webp', alt: 'Produto Charme Chicc 2' },
   { src: '/produtos/i3.webp', alt: 'Produto Charme Chicc 3' },
-  { src: '/produtos/i4.webp', alt: 'Produto Charme Chicc 4' }
+  { src: '/produtos/i4.webp', alt: 'Produto Charme Chicc 4' },
+  { src: '/produtos/i5.webp', alt: 'Produto Charme Chicc 5' },
+  { src: '/produtos/i6.webp', alt: 'Produto Charme Chicc 6' }
 ]
 
 const Carrossel = (props: PropType) => {
