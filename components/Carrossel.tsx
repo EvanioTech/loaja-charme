@@ -1,14 +1,11 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import {
-  NextButton,
-  PrevButton,
-  usePrevNextButtons
-} from './CarrosselArrowButton'
+import { NextButton, PrevButton, usePrevNextButtons } from './CarrosselArrowButton'
 import { DotButton, useDotButton } from './CarrosselDotButoon'
+import { supabase } from '@/lib/supabase'
 
 type SlideType = {
   src: string
@@ -16,28 +13,31 @@ type SlideType = {
 }
 
 type PropType = {
-  slides?: SlideType[]
   options?: EmblaOptionsType
 }
 
-const defaultSlides: SlideType[] = [
-  { src: '/produtos/i1.webp', alt: 'Produto Charme Chicc 1' },
-  { src: '/produtos/i2.webp', alt: 'Produto Charme Chicc 2' },
-  { src: '/produtos/i3.webp', alt: 'Produto Charme Chicc 3' },
-  { src: '/produtos/i4.webp', alt: 'Produto Charme Chicc 4' },
-  { src: '/produtos/i5.webp', alt: 'Produto Charme Chicc 5' },
-  { src: '/produtos/i6.webp', alt: 'Produto Charme Chicc 6' }
-]
-
-const Carrossel = (props: PropType) => {
-  const { slides = defaultSlides, options } = props
+const Carrossel = ({ options }: PropType) => {
+  const [slides, setSlides] = useState<SlideType[]>([])
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
-  const { selectedIndex, scrollSnaps, onDotButtonClick } =
-    useDotButton(emblaApi)
+  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi)
+  const { onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi)
 
-  const { onPrevButtonClick, onNextButtonClick } =
-    usePrevNextButtons(emblaApi)
+  useEffect(() => {
+    async function buscarBanners() {
+      const { data } = await supabase
+        .from('banners')
+        .select('*')
+        .order('ordem', { ascending: true })
+
+      if (data) {
+        setSlides(data.map(b => ({ src: b.imagem_url, alt: 'Banner Charme Chicc' })))
+      }
+    }
+    buscarBanners()
+  }, [])
+
+  if (slides.length === 0) return null
 
   return (
     <div className="embla">
@@ -64,15 +64,12 @@ const Carrossel = (props: PropType) => {
           <PrevButton onClick={onPrevButtonClick} />
           <NextButton onClick={onNextButtonClick} />
         </div>
-
         <div className="embla__dots">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
               onClick={() => onDotButtonClick(index)}
-              className={'embla__dot'.concat(
-                index === selectedIndex ? ' embla__dot--selected' : ''
-              )}
+              className={'embla__dot'.concat(index === selectedIndex ? ' embla__dot--selected' : '')}
             />
           ))}
         </div>
