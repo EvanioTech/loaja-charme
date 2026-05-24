@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { supabase } from "@/lib/supabase"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 function sanitizarNome(nome: string): string {
@@ -242,7 +241,7 @@ export default function AdminPage() {
             <input placeholder="Preço (ex: 45.00)" value={preco} onChange={(e) => setPreco(e.target.value)} className="border rounded-xl p-3" />
             <label className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer hover:bg-gray-50">
               {preview
-                ? <div className="relative w-full h-48"><Image src={preview} alt="Preview" fill className="rounded-xl object-cover" /></div>
+                ? <img src={preview} alt="Preview" className="rounded-xl object-cover w-full h-48" />
                 : <span className="text-gray-400">Clique para selecionar imagem</span>
               }
               <input type="file" accept="image/*" onChange={selecionarImagemProduto} className="hidden" />
@@ -264,7 +263,7 @@ export default function AdminPage() {
               <div key={p.id} className="bg-white rounded-2xl p-4 shadow">
                 {editando?.id === p.id ? (
                   <div className="flex flex-col gap-3">
-                    <div className="relative w-full h-40"><Image src={preview || editando.imagem_url} alt={editando.nome} fill className="rounded-xl object-cover" /></div>
+                    <img src={preview || editando.imagem_url} alt={editando.nome} className="rounded-xl object-cover w-full h-40" />
                     <label className="border-2 border-dashed rounded-xl p-2 text-center cursor-pointer text-sm text-gray-400">
                       Trocar imagem
                       <input type="file" accept="image/*" onChange={selecionarImagemProduto} className="hidden" />
@@ -283,7 +282,7 @@ export default function AdminPage() {
                   </div>
                 ) : (
                   <div className="flex gap-3 items-center">
-                    <div className="relative w-20 h-20 shrink-0"><Image src={p.imagem_url} alt={p.nome} fill className="rounded-xl object-cover" /></div>
+                    <img src={p.imagem_url} alt={p.nome} className="rounded-xl object-cover w-20 h-20 shrink-0" />
                     <div className="flex-1">
                       <p className="font-bold">{p.nome}</p>
                       <p className="text-gray-500 text-sm">{p.descricao}</p>
@@ -307,7 +306,7 @@ export default function AdminPage() {
 
             {banners.map((b) => (
               <div key={b.id} className="bg-white rounded-2xl p-4 shadow relative">
-                <div className="relative w-full h-40"><Image src={b.imagem_url} alt="Banner" fill className="rounded-xl object-cover" /></div>
+                <img src={b.imagem_url} alt="Banner" className="rounded-xl object-cover w-full h-40" />
                 <button
                   onClick={() => deletarBanner(b.id)}
                   className="absolute top-6 right-6 bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
