@@ -3,6 +3,7 @@ import Carrossel from "@/components/Carrossel";
 import { Products } from "@/components/Products";
 import { Contact } from "@/components/Contact";
 import { About } from "@/components/About";
+import { WppButton } from "@/components/WppButton";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
         <h2 className="text-white text-center text-2xl mt-8">Contato</h2>
         <Contact />
       </section>
+      <WppButton />
     </main>
   );
 }
