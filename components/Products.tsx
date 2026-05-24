@@ -1,24 +1,31 @@
 'use client'
 
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { supabase } from "@/lib/supabase"
 
-const produtos = [
-  { id: 1, src: "/produtos/i1.webp", nome: "Vestido", preco: "45,00", descricao: "Vestido floral lindo" },
-  { id: 2, src: "/produtos/i2.webp", nome: "Vestido", preco: "45,00", descricao: "Vestido floral lindo" },
-  { id: 3, src: "/produtos/i3.webp", nome: "Vestido", preco: "45,00", descricao: "Vestido floral lindo" },
-  { id: 4, src: "/produtos/i4.webp", nome: "Vestido", preco: "45,00", descricao: "Vestido floral lindo" },
-  { id: 5, src: "/produtos/i5.webp", nome: "Vestido", preco: "45,00", descricao: "Vestido floral lindo" },
-  { id: 6, src: "/produtos/i6.webp", nome: "Vestido", preco: "45,00", descricao: "Vestido floral lindo" },
-]
-
-type Produto = typeof produtos[0]
+type Produto = {
+  id: string
+  nome: string
+  descricao: string
+  preco: number
+  imagem_url: string
+}
 
 export function Products() {
+  const [produtos, setProdutos] = useState<Produto[]>([])
   const [selecionado, setSelecionado] = useState<Produto | null>(null)
 
-  function callWpp() {
-    const mensagem = `Olá! Tenho interesse em: ${selecionado?.nome} - R$ ${selecionado?.preco}`
+  useEffect(() => {
+    async function buscarProdutos() {
+      const { data } = await supabase.from('produtos').select('*')
+      if (data) setProdutos(data)
+    }
+    buscarProdutos()
+  }, [])
+
+  function abrirWhatsapp(produto: Produto) {
+    const mensagem = `Olá! Tenho interesse em: ${produto.nome} - R$ ${produto.preco}`
     const url = `https://wa.me/55SEUNUMERO?text=${encodeURIComponent(mensagem)}`
     window.open(url, '_blank')
   }
@@ -33,7 +40,7 @@ export function Products() {
             onClick={() => setSelecionado(p)}
           >
             <Image
-              src={p.src}
+              src={p.imagem_url}
               alt={p.nome}
               width={400}
               height={400}
@@ -45,7 +52,6 @@ export function Products() {
         ))}
       </div>
 
-      {/* Modal */}
       {selecionado && (
         <div
           className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
@@ -56,7 +62,7 @@ export function Products() {
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              src={selecionado.src}
+              src={selecionado.imagem_url}
               alt={selecionado.nome}
               width={400}
               height={400}
@@ -66,14 +72,14 @@ export function Products() {
             <p className="text-gray-500 mt-1">{selecionado.descricao}</p>
             <p className="text-lg font-bold mt-2">R$ {selecionado.preco}</p>
             <button
-              onClick={() => callWpp()}
-                className="mt-2 w-full bg-green-500 text-white py-2 rounded-xl"
+              onClick={() => abrirWhatsapp(selecionado)}
+              className="mt-2 w-full bg-green-500 text-white py-2 rounded-xl"
             >
-                Chamar no WhatsApp
+              Chamar no WhatsApp
             </button>
             <button
               onClick={() => setSelecionado(null)}
-              className="mt-4 w-full bg-black text-white py-2 rounded-xl"
+              className="mt-2 w-full bg-black text-white py-2 rounded-xl"
             >
               Fechar
             </button>
