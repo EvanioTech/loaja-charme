@@ -36,7 +36,7 @@ export function Products() {
         {produtos.map((p) => (
           <article
             key={p.id}
-            className="bg-white rounded-2xl p-4 h-100 relative cursor-pointer"
+            className="bg-white rounded-2xl p-4 aspect-square relative cursor-pointer"
             onClick={() => setSelecionado(p)}
           >
             <Image
