@@ -81,7 +81,13 @@ export default function AdminPage() {
     const nomeArquivo = `${Date.now()}_${sanitizarNome(arquivoProduto.name)}`
     console.log("Upload produto:", nomeArquivo)
     try {
-      const { error, data } = await supabase.storage.from('produtos').upload(nomeArquivo, arquivoProduto)
+      // Converte para ArrayBuffer para evitar o bug de travamento do Safari/iOS em HTTP/2 na Vercel
+      const buffer = await arquivoProduto.arrayBuffer()
+      
+      const { error, data } = await supabase.storage.from('produtos').upload(nomeArquivo, buffer, {
+        contentType: arquivoProduto.type
+      })
+      
       console.log("Erro:", error, "Data:", data)
       if (error) {
         console.error("Erro no Supabase Storage:", error)
@@ -169,29 +175,37 @@ export default function AdminPage() {
     const nomeArquivo = `banner_${Date.now()}_${sanitizarNome(arquivoBanner.name)}`
     console.log("Upload banner:", nomeArquivo)
 
-    const { error: uploadError, data: uploadData } = await supabase.storage
-      .from('produtos')
-      .upload(nomeArquivo, arquivoBanner)
+    try {
+      const buffer = await arquivoBanner.arrayBuffer()
 
-    console.log("Upload error:", uploadError)
-    console.log("Upload data:", uploadData)
+      const { error: uploadError, data: uploadData } = await supabase.storage
+        .from('produtos')
+        .upload(nomeArquivo, buffer, {
+          contentType: arquivoBanner.type
+        })
 
-    if (uploadError) {
-      alert(`Erro: ${uploadError.message}`)
+      console.log("Upload error:", uploadError)
+      console.log("Upload data:", uploadData)
+
+      if (uploadError) {
+        alert(`Erro: ${uploadError.message}`)
+        setLoadingBanner(false)
+        return
+      }
+
+      const { data } = supabase.storage.from('produtos').getPublicUrl(nomeArquivo)
+
+      await supabase.from('banners').insert({
+        imagem_url: data.publicUrl,
+        ordem: banners.length
+      })
+    } catch (err: any) {
+      alert("Erro inesperado no banner: " + (err.message || String(err)))
+    } finally {
+      setArquivoBanner(null)
+      buscarBanners()
       setLoadingBanner(false)
-      return
     }
-
-    const { data } = supabase.storage.from('produtos').getPublicUrl(nomeArquivo)
-
-    await supabase.from('banners').insert({
-      imagem_url: data.publicUrl,
-      ordem: banners.length
-    })
-
-    setArquivoBanner(null)
-    buscarBanners()
-    setLoadingBanner(false)
   }
 
   async function deletarBanner(id: string) {
