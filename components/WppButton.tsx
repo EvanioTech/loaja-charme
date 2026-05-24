@@ -5,7 +5,7 @@ import React from "react"
 
 export function WppButton() {
     const mensagem = "Olá, gostaria de saber mais sobre os produtos da Charme Chicc!"
-    const url = `https://wa.me/55991999999?text=${encodeURIComponent(mensagem)}`
+    const url = `https://wa.me/5585997264124?text=${encodeURIComponent(mensagem)}`
 
     return (
       <a  
