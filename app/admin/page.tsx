@@ -6,7 +6,8 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 function sanitizarNome(nome: string): string {
-  return nome
+  if (!nome) return 'imagem_mobile.jpg'
+  return String(nome)
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-zA-Z0-9._-]/g, '_')
@@ -101,23 +102,30 @@ export default function AdminPage() {
     console.log("arquivoProduto:", arquivoProduto)
     if (!arquivoProduto) return alert("Seleciona uma imagem!")
     setLoading(true)
-    const url = await uploadImagemProduto()
-    if (!url) { alert("Erro no upload!"); setLoading(false); return }
 
-    const { error } = await supabase.from('produtos').insert({
-      nome, descricao, preco: Number(preco), imagem_url: url, disponivel: true
-    })
+    try {
+      const url = await uploadImagemProduto()
+      if (!url) { alert("Erro no upload!"); setLoading(false); return }
 
-    if (error) {
-      console.error("Erro ao cadastrar no banco:", error)
-      alert("Erro ao cadastrar: " + error.message)
-    } else {
-      setSucesso(true)
-      setNome(""); setDescricao(""); setPreco("")
-      setArquivoProduto(null); setPreview(null)
-      setTimeout(() => setSucesso(false), 3000)
+      const { error } = await supabase.from('produtos').insert({
+        nome, descricao, preco: Number(preco), imagem_url: url, disponivel: true
+      })
+
+      if (error) {
+        console.error("Erro ao cadastrar no banco:", error)
+        alert("Erro ao cadastrar no banco: " + error.message)
+      } else {
+        setSucesso(true)
+        setNome(""); setDescricao(""); setPreco("")
+        setArquivoProduto(null); setPreview(null)
+        setTimeout(() => setSucesso(false), 3000)
+      }
+    } catch (err: any) {
+      console.error("Erro geral (crash):", err)
+      alert("Erro inesperado no celular: " + (err.message || String(err)))
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   async function salvarEdicao() {
