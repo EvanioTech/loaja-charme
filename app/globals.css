@@ -16,21 +16,26 @@
 .embla__container {
 	display: flex;
 	margin-left: -1rem;
+	
 }
 
 .embla__slide {
 	flex: 0 0 100%;
 	min-width: 0;
 	padding-left: 1rem;
+	
 }
 
 .embla__slide__number {
 	position: relative;
 	overflow: hidden;
-	height: 18rem;
+	height: 41rem;
+	
 	border-radius: 1.5rem;
 	background: linear-gradient(180deg, #fff7fb 0%, #ffd4e0 100%);
 	box-shadow: 0 1rem 2.5rem rgba(194, 75, 114, 0.18);
+	justify-content: center;
+	align-items: center;
 }
 
 .embla__slide__image {
