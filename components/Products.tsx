@@ -54,11 +54,11 @@ export function Products() {
 
       {selecionado && (
         <div
-          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center  p-4"
           onClick={() => setSelecionado(null)}
         >
           <div
-            className="bg-white rounded-2xl p-6 max-w-sm w-full"
+            className="bg-white rounded-2xl p-6 max-w-sm w-full h-full overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
