@@ -12,7 +12,9 @@ export default function Home() {
 
       <section id="inicio" className="mt-4 px-4 pt-24 sm:px-6 lg:px-8">
         <p className="mx-auto max-w-4xl text-center  text-sm leading-7 text-black/30 sm:text-base">
-          Seja Bem vindo ao Charme Chicc, onde a elegância encontra a sofisticação. Descubra uma coleção exclusiva de roupas e acessórios que combinam estilo e conforto para realçar sua beleza única. Explore nossas últimas tendências e encontre peças que refletem sua personalidade. Charme Chicc - onde cada detalhe é pensado para você brilhar.
+          Bem-vinda à Charme Chicc ✨
+Onde elegância, estilo e sofisticação se encontram. Descubra peças exclusivas que valorizam sua beleza e elevam sua confiança em cada detalhe. Nossa coleção foi pensada para mulheres modernas que amam conforto sem abrir mão da tendência.
+Vista-se de charme, brilhe com autenticidade 💖
         </p>
         <Carrossel options={{ loop: true }} />
 
