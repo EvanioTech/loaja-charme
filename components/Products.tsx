@@ -32,7 +32,7 @@ export function Products() {
 
   return (
     <div className="mt-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-4">
         {produtos.map((p) => (
           <article
             key={p.id}
@@ -46,8 +46,10 @@ export function Products() {
               height={400}
               className="object-cover rounded-2xl w-full h-full"
             />
-            <p className="absolute bottom-6 left-6 bg-black/50 text-white font-bold px-2 py-1 rounded-lg">{p.nome}</p>
-            <p className="absolute bottom-6 right-6 bg-black/50 text-white px-2 py-1 rounded-lg font-bold">R$ {p.preco}</p>
+            <div className="flex flex-col justify-between mt-2 items-center md:flex-row md:justify-between  ">
+            <p className=" bottom-6 left-6 bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-lg md:text-sm">{p.nome}</p>
+            <p className=" bottom-6 right-6 bg-black/50 text-white text-xs px-2 py-1 rounded-lg font-bold mt-2 md:text-sm">R$ {p.preco}</p>
+            </div>
           </article>
         ))}
       </div>
